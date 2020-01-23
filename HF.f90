@@ -1,4 +1,4 @@
-      program reader
+      program HF
       
       implicit none
 
@@ -92,7 +92,7 @@
 
       charge=1
 
-      end program reader
+      end program HF
 
       !Integrals between two Gaussian functions
 
