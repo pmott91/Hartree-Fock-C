@@ -283,3 +283,114 @@ infile.close();
 return atoms;
  
 }
+
+//Define the function gauss_product;
+std::vector<double> gauss_product(gauss gauss_a, gauss gauss_b){
+
+const double Pi = 3.14159;
+
+double a = gauss_a.alph;
+std::vector<double> Ra = {gauss_a.x,gauss_a.y,gauss_a.z}; 
+double b = gauss_b.alph;
+std::vector<double> Rb = {gauss_b.x,gauss_b.y,gauss_b.z};
+
+double p = a + b;
+
+double diff = ((Rb[0]-Ra[0])*(Rb[0]-Ra[0])) + ((Rb[1]-Ra[1]) * (Rb[1]-Ra[1])) + ((Rb[2]-Ra[2]) * (Rb[2]-Ra[2]));
+
+double N = pow((4*a*b/(Pi*Pi)), 0.75);
+
+double K = N*exp((-a*b)/(p*diff));
+
+std::vector<double> Rp = {(a*Ra[0]+b*Rb[0])/p,(a*Ra[1]+b*Rb[1])/p,(a*Ra[2]+b*Rb[2])/p};
+
+std::vector<double> gauss_c = {p, diff, K, Rp[0], Rp[1], Rp[2]};
+
+return gauss_c;
+}
+
+
+//Define the overlap integral.
+
+double overlap(gauss GA, gauss GB){
+std::vector<double> volve = gauss_product(GA,GB);
+const double Pi = 3.14159;
+double p = volve[0];
+double diff = volve[1];
+double K = volve[2];
+std::vector<double> Rp = {volve[3], volve[4], volve[5]};
+double prefactor = pow((Pi/p),1.5);
+double ans = prefactor*K;
+return ans;
+}
+
+//Define the kinetic integral.
+
+double kinetic(gauss KA, gauss KB){
+
+const double Pi = 3.14159;
+std::vector<double> volve = gauss_product(KA,KB);
+double p =volve[0];
+double diff = volve[1];
+double K = volve[2];
+std::vector<double> Rp = {volve[3], volve[4], volve[5]};
+double prefactor = pow((Pi/p),1.5);
+double a = KA.alph;
+std::vector<double> Ra = {KA.x, KA.y, KA.z};
+double b = KB.alph;
+std::vector<double> Rb = {KB.x, KB.y, KB.z};
+double reduced_exponent = (a*b)/p;
+double ans = reduced_exponent*(3-2*reduced_exponent*diff)*prefactor*K;
+return ans;
+}
+
+
+//Define the F0 function.
+
+double fo(double t){
+const double Pi = 3.14159;
+double ans;
+if(t ==0) {
+return 1;
+}
+else{
+ans=pow((0.5*(Pi/t)),0.5)*erf(pow(t,0.5));
+return ans;
+}
+}
+
+//Define the Nuclear-electron integral.
+
+double potential(gauss NA, gauss NB, std::vector<double> CAtom){
+const double Pi =3.14159;
+std::vector<double> volve = gauss_product(NA,NB);
+double p =volve[0];
+double diff = volve[1];
+double K = volve[2];
+std::vector<double> Rp = {volve[3], volve[4], volve[5]};
+std::vector<double> Rc = {CAtom[0], CAtom[1], CAtom[2]};
+int Zc = 1;
+double norm = (pow((Rp[0]-Rc[0]),2) + pow((Rp[1]-Rc[1]),2) + pow((Rp[2]-Rc[2]),2));
+double ans = (-2*Pi*Zc/p)*K*fo(p*norm);
+return ans;
+}
+
+//Define the (ab|cd) integral.
+
+double multi(gauss MA, gauss MB, gauss MC, gauss MD){
+const double Pi=3.14159;
+std::vector<double> volve = gauss_product(MA,MB);
+double p =volve[0];
+double diff_ab = volve[1];
+double K_ab = volve[2];
+std::vector<double> Rp = {volve[3], volve[4], volve[5]};
+std::vector<double> bolve = gauss_product(MC,MD);
+double q =bolve[0];
+double diff_cd = bolve[1];
+double K_cd = bolve[2];
+std::vector<double> Rq = {bolve[3], bolve[4], bolve[5]};
+double multi_prefactor = pow((pow((2*Pi),2.5)*(p*q*pow((p+q),0.5))),-1);
+double norm = (pow((Rp[0]-Rq[0]),2) + pow((Rp[1]-Rq[1]),2) + pow((Rp[2]-Rq[2]),2));
+double ans = multi_prefactor*K_ab*K_cd*fo(p*q/(p+q)*norm);
+return ans;
+}
