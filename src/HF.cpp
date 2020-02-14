@@ -8,6 +8,7 @@
 
 #include "HF.hpp"
 
+
 using std::fixed;
 using std::setprecision;
 
@@ -46,7 +47,7 @@ int H =1;
 
 //Slater Zeta value
 
-int Zeta = 1.24;
+double Zeta = 1.24;
 
 //Gaussian contraction coefficients
 
@@ -78,15 +79,50 @@ int B=2;
 
 int N =2;
 
-//Initialize matrices
+//Compute the nuclear-repulsion energy.
 
+double enuc = 0.0;
+
+for (int k = 0; k < atomn; k++) {
+
+       for (int l = k +1; l < atomn; l++) {
+       double xkl = atoms[k].x - atoms[l].x;
+       double ykl = atoms[k].y - atoms[l].y;
+       double zkl = atoms[k].z - atoms[l].z;
+       double r2 = xkl*xkl + ykl*ykl + zkl*zkl;
+       double r = sqrt(r2);       
+       
+       enuc += atoms[k].atomic_number * atoms[l].atomic_number/r;
+
+       }
+}
+
+std::cout << "The nuclear repulsion energy is: " << enuc << std::endl;
+
+//Compute the overlap integrals
+
+
+
+
+//Initialize matrices
+/*
 double S[B][B];
 double T[B][B];
 double V[B][B];
 double multi_electron_tensor[B][B][B][B];
 
-double Za = atoms[1].atomic_number;
-std::vector<double> Ra = {atoms[1].x,atoms[1].y,atoms[1].z};
+int j;
+double Za[atomn];
+std::vector<double> Ra;
+std::vector<double> d_vec;
+for (j=0; j < atomn; j++){
+Za[j] = atoms[j].atomic_number;
+Ra = {atoms[j].x,atoms[j].y,atoms[j].z};
+
+d_vec = {D[0][0],D[0][1],D[0][2]};
+
+
+*/
 
 
 
