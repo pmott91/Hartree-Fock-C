@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/HF.dir/src/HF.cpp.o"
   "CMakeFiles/HF.dir/src/func.cpp.o"
+  "CMakeFiles/HF.dir/src/quantnum.cpp.o"
   "HF"
   "HF.pdb"
 )

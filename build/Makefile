@@ -177,6 +177,33 @@ src/func.cpp.s:
 	$(MAKE) -f CMakeFiles/HF.dir/build.make CMakeFiles/HF.dir/src/func.cpp.s
 .PHONY : src/func.cpp.s
 
+src/quantnum.o: src/quantnum.cpp.o
+
+.PHONY : src/quantnum.o
+
+# target to build an object file
+src/quantnum.cpp.o:
+	$(MAKE) -f CMakeFiles/HF.dir/build.make CMakeFiles/HF.dir/src/quantnum.cpp.o
+.PHONY : src/quantnum.cpp.o
+
+src/quantnum.i: src/quantnum.cpp.i
+
+.PHONY : src/quantnum.i
+
+# target to preprocess a source file
+src/quantnum.cpp.i:
+	$(MAKE) -f CMakeFiles/HF.dir/build.make CMakeFiles/HF.dir/src/quantnum.cpp.i
+.PHONY : src/quantnum.cpp.i
+
+src/quantnum.s: src/quantnum.cpp.s
+
+.PHONY : src/quantnum.s
+
+# target to generate assembly for a file
+src/quantnum.cpp.s:
+	$(MAKE) -f CMakeFiles/HF.dir/build.make CMakeFiles/HF.dir/src/quantnum.cpp.s
+.PHONY : src/quantnum.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... src/func.o"
 	@echo "... src/func.i"
 	@echo "... src/func.s"
+	@echo "... src/quantnum.o"
+	@echo "... src/quantnum.i"
+	@echo "... src/quantnum.s"
 .PHONY : help
 
 

@@ -284,6 +284,8 @@ return atoms;
  
 }
 
+
+
 //Define the function gauss_product;
 std::vector<double> gauss_product(gauss gauss_a, gauss gauss_b){
 
@@ -293,15 +295,17 @@ double a = gauss_a.alph;
 std::vector<double> Ra = {gauss_a.x,gauss_a.y,gauss_a.z}; 
 double b = gauss_b.alph;
 std::vector<double> Rb = {gauss_b.x,gauss_b.y,gauss_b.z};
+//std::cout << "Ra is " << Ra[0] << '\t' << Ra[1] << '\t' << Ra[2] << std::endl;
+//std::cout << "Rb is " << Rb[0] << '\t' << Rb[1] << '\t' << Rb[2] << std::endl;
 
 double p = a + b;
 
 double diff = ((Rb[0]-Ra[0])*(Rb[0]-Ra[0])) + ((Rb[1]-Ra[1]) * (Rb[1]-Ra[1])) + ((Rb[2]-Ra[2]) * (Rb[2]-Ra[2]));
-
+//std::cout << "diff is " << diff << std::endl;
 double N = pow((4*a*b/(Pi*Pi)), 0.75);
 
 double K = N*exp((-a*b)/(p*diff));
-
+//std::cout << "K is " << K << std::endl;
 std::vector<double> Rp = {(a*Ra[0]+b*Rb[0])/p,(a*Ra[1]+b*Rb[1])/p,(a*Ra[2]+b*Rb[2])/p};
 
 std::vector<double> gauss_c = {p, diff, K, Rp[0], Rp[1], Rp[2]};
@@ -316,9 +320,12 @@ double overlap(gauss GA, gauss GB){
 std::vector<double> volve = gauss_product(GA,GB);
 const double Pi = 3.14159;
 double p = volve[0];
+//std::cout << "p = " << p << std::endl;
 double diff = volve[1];
+//std::cout << "diff = " << diff << std::endl;
 double K = volve[2];
-std::vector<double> Rp = {volve[3], volve[4], volve[5]};
+//std::cout << "K is " << K << std::endl;
+//std::vector<double> Rp = {volve[3], volve[4], volve[5]};
 double prefactor = pow((Pi/p),1.5);
 double ans = prefactor*K;
 return ans;
@@ -361,15 +368,16 @@ return ans;
 
 //Define the Nuclear-electron integral.
 
-double potential(gauss NA, gauss NB, std::vector<double> CAtom){
+double potential(gauss NA, gauss NB, Atom CAtom){
 const double Pi =3.14159;
 std::vector<double> volve = gauss_product(NA,NB);
+Atom natom={CAtom.atomic_number, CAtom.x, CAtom.y, CAtom.z};
 double p =volve[0];
 double diff = volve[1];
 double K = volve[2];
 std::vector<double> Rp = {volve[3], volve[4], volve[5]};
-std::vector<double> Rc = {CAtom[0], CAtom[1], CAtom[2]};
-int Zc = 1;
+std::vector<double> Rc = {natom.x, natom.y, natom.z};
+int Zc = natom.atomic_number;
 double norm = (pow((Rp[0]-Rc[0]),2) + pow((Rp[1]-Rc[1]),2) + pow((Rp[2]-Rc[2]),2));
 double ans = (-2*Pi*Zc/p)*K*fo(p*norm);
 return ans;

@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.16.1)
 project (parquant)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_STANDARD_REQUIRED_ON)
+
 #Bring in the header files.
 include_directories(include)
 

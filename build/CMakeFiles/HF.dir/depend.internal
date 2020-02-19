@@ -7,3 +7,6 @@ CMakeFiles/HF.dir/src/HF.cpp.o
 CMakeFiles/HF.dir/src/func.cpp.o
  ../include/HF.hpp
  /Users/4s5/HF/Parallel-Quantum-Code/src/func.cpp
+CMakeFiles/HF.dir/src/quantnum.cpp.o
+ ../include/HF.hpp
+ /Users/4s5/HF/Parallel-Quantum-Code/src/quantnum.cpp

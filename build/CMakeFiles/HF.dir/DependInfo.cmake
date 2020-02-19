@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/4s5/HF/Parallel-Quantum-Code/src/HF.cpp" "/Users/4s5/HF/Parallel-Quantum-Code/build/CMakeFiles/HF.dir/src/HF.cpp.o"
   "/Users/4s5/HF/Parallel-Quantum-Code/src/func.cpp" "/Users/4s5/HF/Parallel-Quantum-Code/build/CMakeFiles/HF.dir/src/func.cpp.o"
+  "/Users/4s5/HF/Parallel-Quantum-Code/src/quantnum.cpp" "/Users/4s5/HF/Parallel-Quantum-Code/build/CMakeFiles/HF.dir/src/quantnum.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

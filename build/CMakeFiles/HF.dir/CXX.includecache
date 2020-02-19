@@ -44,3 +44,21 @@ iomanip
 HF.hpp
 /Users/4s5/HF/Parallel-Quantum-Code/src/HF.hpp
 
+/Users/4s5/HF/Parallel-Quantum-Code/src/quantnum.cpp
+iostream
+-
+string
+-
+fstream
+-
+sstream
+-
+cmath
+-
+vector
+-
+iomanip
+-
+HF.hpp
+/Users/4s5/HF/Parallel-Quantum-Code/src/HF.hpp
+
