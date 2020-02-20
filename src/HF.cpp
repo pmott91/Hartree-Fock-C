@@ -8,6 +8,7 @@
 
 #include "HF.hpp"
 
+#include "Eigen/Eigenvalues"
 
 using std::fixed;
 using std::setprecision;
@@ -119,11 +120,27 @@ std::cout << "The nuclear repulsion energy is: " << enuc << std::endl;
 double S[B][B];
 double T[B][B];
 double V[B][B];
-double multi_electron_tensor[B][B][B][B];
 
+for(int s1 = 0; s1 < B; s1++){
+       for(int s2 = 0; s2 < B; s2++){
+              S[s1][s2]=0;
+              T[s1][s2]=0;
+              V[s1][s2]=0;
+       }
+}
+
+double multi_electron_tensor[B][B][B][B];
+for(int m1 = 0; m1 < B; m1++) {
+       for(int m2 = 0; m2 < B; m2++){
+              for(int m3=0; m3 < B; m3++){
+                     for(int m4=0; m4 < B; m4++){
+                            multi_electron_tensor[m1][m2][m3][m4] = 0;
+                     }
+              }
+       }
+}
 //Iterate through atoms.
 
-int j;
 double Za[atomn];
 double Ra[atomn][3];
 std::vector<double> d_vec_m;
@@ -132,9 +149,19 @@ double Zb[atomn];
 double Rb[atomn][3];
 std::vector<double> d_vec_n;
 std::vector<double> alpha_vec_n;
-int a;
-int b;
-for (j=0; j < atomn; j++){
+double Zc[atomn];
+double Rc[atomn][3];
+std::vector<double> d_vec_k;
+std::vector<double> alpha_vec_k;
+double Zd[atomn];
+double Rd[atomn][3];
+std::vector<double> d_vec_l;
+std::vector<double> alpha_vec_l;
+int a=0;
+int b=0;
+int c=0;
+int d=0;
+for (int j=0; j < atomn; j++){
        
        //For each atom, get the charge and center.
        Za[j] = atoms[j].atomic_number;
@@ -199,32 +226,82 @@ for (j=0; j < atomn; j++){
                                           KB.z=Rb[l][2];
                                           
                                           //Fill the kinetic matrix.
-                                          T[a][b] = d_vec_m[k]*d_vec_n[q]*kinetic(KA,KB);
+                                          T[a][b] += d_vec_m[k]*d_vec_n[q]*kinetic(KA,KB);
                                           //std::cout << "Kinetic element T[" << a << "][" << b << "] is " << T[a][b] << std::endl;
                                           //Define gaussians for the potential matrix.                                          
                                           for(int i5 = 0; i5 < atomn; i5++){
-                                          gauss NA; 
-                                          NA.alph = alpha_vec_m[k];
-                                          NA.x = Ra[j][0];
-                                          NA.y = Ra[j][1];
-                                          NA.z = Ra[j][2];
-                                          gauss NB; 
-                                          NB.alph = alpha_vec_n[q];
-                                          NB.x = Rb[l][0];
-                                          NB.y = Rb[l][1];
-                                          NB.z = Rb[l][2];
+                                                 gauss NA; 
+                                                 NA.alph = alpha_vec_m[k];
+                                                 NA.x = Ra[j][0];
+                                                 NA.y = Ra[j][1];
+                                                 NA.z = Ra[j][2];
+                                                 gauss NB; 
+                                                 NB.alph = alpha_vec_n[q];
+                                                 NB.x = Rb[l][0];
+                                                 NB.y = Rb[l][1];
+                                                 NB.z = Rb[l][2];
 
-                                          //Populate the potential matrix.
-                                          V[a][b] += d_vec_m[k]*d_vec_n[q]*potential(NA,NB,atoms[i5]);
-                                          //std::cout << "Potential element V[" << a << "][" << b << "] is " <<  V[a][b] << std::endl;
+                                                 //Populate the potential matrix.
+                                                 V[a][b] += d_vec_m[k]*d_vec_n[q]*potential(NA,NB,atoms[i5]);
+                                                 //std::cout << "Potential element V[" << a << "][" << b << "] is " <<  V[a][b] << std::endl;
                                           }
-
+                                          for(int j3 = 0; j3 < atomn; j3++){
+                                                 Zc[j3] = atoms[j3].atomic_number;
+                                                 Rc[j3][0] = atoms[j3].x;
+                                                 Rc[j3][0] = atoms[j3].y;
+                                                 Rc[j3][0] = atoms[j3].z;
+                                                 for (int j4 = 0; j4 < nlist[j3]; j4++){
+                                                        d_vec_k = {D[j4][0],D[j4][1],D[j4][2]};
+                                                        alpha_vec_k = {alpha[j4][0]*pow(Zeta,2), alpha[j4][1]*pow(Zeta,2), alpha[j4][2]*pow(Zeta,2)};
+                                                        for(int k2=0; k2 < STOnG; k2++){
+                                                               for (int i9 = 0; i9 < atomn; i9++){
+                                                               Zd[k2]=atoms[k2].atomic_number;
+                                                               Rd[k2][0]=atoms[i9].x;
+                                                               Rd[k2][1]=atoms[i9].y;
+                                                               Rd[k2][2]=atoms[i9].z;
+                                                                      for(int l3=0; l3 < nlist[k2]; l3++){
+                                                                             d_vec_l = {D[l3][0],D[l3][1],D[l3][2]};
+                                                                             alpha_vec_l = {alpha[l3][0]*pow(Zeta,2), alpha[l3][1]*pow(Zeta,2), alpha[l3][2]*pow(Zeta,2)};
+                                                                             for(int l4 = 0; l4 < STOnG; l4++){
+                                                                                    c = (j3+1)*(j4+1)-1;
+                                                                                    d = (k2+1)*(l3+1)-1;
+                                                                                    //std::cout << a << "\t" << b << "\t" << c << "\t" << d << std::endl;
+                                                                                    gauss MA;
+                                                                                    MA.alph = alpha_vec_m[k];
+                                                                                    MA.x = Ra[j][0];
+                                                                                    MA.y = Ra[j][1];
+                                                                                    MA.z = Ra[j][2];
+                                                                                    gauss MB;
+                                                                                    MB.alph = alpha_vec_n[q];
+                                                                                    MB.x = Rb[l][0];
+                                                                                    MB.y = Rb[l][1];
+                                                                                    MB.z = Rb[l][2];
+                                                                                    gauss MC;
+                                                                                    MC.alph = alpha_vec_k[k2];
+                                                                                    MC.x = Rc[i9][0];
+                                                                                    MC.y = Rc[i9][1];
+                                                                                    MC.z = Rc[i9][2];
+                                                                                    gauss MD;
+                                                                                    MD.alph = alpha_vec_l[l4];
+                                                                                    MD.x = Rd[j3][0];
+                                                                                    MD.y = Rd[j3][1];
+                                                                                    MD.z = Rd[j3][2];
+                                                                                    multi_electron_tensor[a][b][c][d]+=d_vec_m[k]*d_vec_n[q]*d_vec_k[k2]*d_vec_l[l4]*multi(MA,MB,MC,MD);
+//                                                                                   std::cout << "Multi-Electron Tensor element Multi[" << a << "][" << b << "][" << c << "][" << d << "] is " << multi_electron_tensor[a][b][c][d] << std::endl;
+             
+                                                                             } 
+                                                                      }
+                                                               }          
+                                                        }
+                                                 }
+                                          }
                                    }
                             }
                      }
               }
        }
 }
+
 for (int i6 = 0; i6 < 2; i6++){
        for(int j6 = 0; j6 < 2; j6++){
        std::cout << "Overlap element S[" << i6 << "][" << j6 << "] is " << S[i6][j6] << std::endl;
@@ -233,10 +310,31 @@ for (int i6 = 0; i6 < 2; i6++){
 
        }
 }
+for (int i7 = 0; i7 < 2; i7++){
+       for (int j7 =0; j7 < 2; j7++){
+              for (int i8 =0; i8 < 2; i8 ++){
+                     for (int j8 =0; j8 < 2; j8++){
+       std::cout << "Multi-Electron Tensor element Multi[" << i7 << "][" << j7 << "][" << i8 << "][" << j8 << "] is " << multi_electron_tensor[i7][j7][i8][j8] << std::endl;
+                     }       
+              } 
+       }      
+}
+//Form the Core Hamiltonian.
+double Hcore[B][B];
+for(int hc1 =0; hc1 < B; hc1++){
+       for(int hc2=0; hc2 < B; hc2++){
+              Hcore[hc1][hc2]=0;
+       }
+}
 
+for (int h1 = 0; h1 < B; h1++){
+       for (int h2 = 0; h2 < B; h2++){
+              Hcore[h1][h2] = T[h1][h2]+V[h1][h2];
+              std::cout << "Core Hamiltonian element HCore[" << h1 << "][" << h2 << "] is " << Hcore[h1][h2] << std::endl;     
+       }
+}
 
-
-
+//Perform the symmetric orthoganilization of basis.
 
 
 }
