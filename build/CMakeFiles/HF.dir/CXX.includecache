@@ -7,6 +7,10 @@
 #IncludeRegexTransform: 
 
 ../include/HF.hpp
+Eigen/Eigenvalues
+../include/Eigen/Eigenvalues
+Eigen/Dense
+../include/Eigen/Dense
 
 /Users/4s5/HF/Parallel-Quantum-Code/src/HF.cpp
 iostream
@@ -27,6 +31,10 @@ HF.hpp
 /Users/4s5/HF/Parallel-Quantum-Code/src/HF.hpp
 Eigen/Eigenvalues
 /Users/4s5/HF/Parallel-Quantum-Code/src/Eigen/Eigenvalues
+Eigen/Dense
+/Users/4s5/HF/Parallel-Quantum-Code/src/Eigen/Dense
+unsupported/Eigen/MatrixFunctions
+/Users/4s5/HF/Parallel-Quantum-Code/src/unsupported/Eigen/MatrixFunctions
 
 /Users/4s5/HF/Parallel-Quantum-Code/src/func.cpp
 iostream
@@ -469,6 +477,22 @@ src/Core/GlobalFunctions.h
 /usr/local/include/eigen3/Eigen/src/Core/GlobalFunctions.h
 src/Core/util/ReenableStupidWarnings.h
 /usr/local/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h
+
+/usr/local/include/eigen3/Eigen/Dense
+Core
+/usr/local/include/eigen3/Eigen/Core
+LU
+/usr/local/include/eigen3/Eigen/LU
+Cholesky
+/usr/local/include/eigen3/Eigen/Cholesky
+QR
+/usr/local/include/eigen3/Eigen/QR
+SVD
+/usr/local/include/eigen3/Eigen/SVD
+Geometry
+/usr/local/include/eigen3/Eigen/Geometry
+Eigenvalues
+/usr/local/include/eigen3/Eigen/Eigenvalues
 
 /usr/local/include/eigen3/Eigen/Eigenvalues
 Core
@@ -1265,4 +1289,50 @@ IndexedViewMethods.h
 /usr/local/include/eigen3/Eigen/src/plugins/ReshapedMethods.h
 ReshapedMethods.h
 /usr/local/include/eigen3/Eigen/src/plugins/ReshapedMethods.h
+
+/usr/local/include/eigen3/unsupported/Eigen/MatrixFunctions
+cfloat
+-
+list
+-
+../../Eigen/Core
+/usr/local/include/eigen3/Eigen/Core
+../../Eigen/LU
+/usr/local/include/eigen3/Eigen/LU
+../../Eigen/Eigenvalues
+/usr/local/include/eigen3/Eigen/Eigenvalues
+../../Eigen/src/Core/util/DisableStupidWarnings.h
+/usr/local/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h
+src/MatrixFunctions/MatrixExponential.h
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixExponential.h
+src/MatrixFunctions/MatrixFunction.h
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixFunction.h
+src/MatrixFunctions/MatrixSquareRoot.h
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixSquareRoot.h
+src/MatrixFunctions/MatrixLogarithm.h
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixLogarithm.h
+src/MatrixFunctions/MatrixPower.h
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixPower.h
+../../Eigen/src/Core/util/ReenableStupidWarnings.h
+/usr/local/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h
+unsupported/Eigen/MatrixFunctions
+-
+iostream
+-
+
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixExponential.h
+StemFunction.h
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/StemFunction.h
+
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixFunction.h
+StemFunction.h
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/StemFunction.h
+
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixLogarithm.h
+
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixPower.h
+
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/MatrixSquareRoot.h
+
+/usr/local/include/eigen3/unsupported/Eigen/src/MatrixFunctions/StemFunction.h
 

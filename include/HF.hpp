@@ -1,3 +1,6 @@
+#include "Eigen/Eigenvalues"
+#include "Eigen/Dense"
+
 // Build a struct to store atomic number and coordinates.
 struct Atom {
        int  atomic_number;
@@ -40,3 +43,6 @@ double potential(gauss NA, gauss NB, Atom Catom);
 
 //Declare the multi-electron tensor
 double multi(gauss MA, gauss MB, gauss MC, gauss MD);
+
+//Declare the succ_dens iterator.
+double succ_dens(Eigen::MatrixXd ptilde, Eigen::MatrixXd p, int B);

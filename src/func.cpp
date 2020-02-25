@@ -289,27 +289,19 @@ return atoms;
 //Define the function gauss_product;
 std::vector<double> gauss_product(gauss gauss_a, gauss gauss_b){
 
-const double Pi = 3.14159;
-
+const double Pi = 3.14159265359;
+const double eul=2.71828182846;
 double a = gauss_a.alph;
 std::vector<double> Ra = {gauss_a.x,gauss_a.y,gauss_a.z}; 
 double b = gauss_b.alph;
 std::vector<double> Rb = {gauss_b.x,gauss_b.y,gauss_b.z};
-//std::cout << "Ra is " << Ra[0] << '\t' << Ra[1] << '\t' << Ra[2] << std::endl;
-//std::cout << "Rb is " << Rb[0] << '\t' << Rb[1] << '\t' << Rb[2] << std::endl;
-
 double p = a + b;
-
 double diff = ((Rb[0]-Ra[0])*(Rb[0]-Ra[0])) + ((Rb[1]-Ra[1]) * (Rb[1]-Ra[1])) + ((Rb[2]-Ra[2]) * (Rb[2]-Ra[2]));
-//std::cout << "diff is " << diff << std::endl;
 double N = pow((4*a*b/(Pi*Pi)), 0.75);
-
-double K = N*exp((-a*b)/(p*diff));
-//std::cout << "K is " << K << std::endl;
+double kexp = -a*b/p*diff;
+double K = N*pow(eul,kexp);
 std::vector<double> Rp = {(a*Ra[0]+b*Rb[0])/p,(a*Ra[1]+b*Rb[1])/p,(a*Ra[2]+b*Rb[2])/p};
-
 std::vector<double> gauss_c = {p, diff, K, Rp[0], Rp[1], Rp[2]};
-
 return gauss_c;
 }
 
@@ -318,14 +310,10 @@ return gauss_c;
 
 double overlap(gauss GA, gauss GB){
 std::vector<double> volve = gauss_product(GA,GB);
-const double Pi = 3.14159;
+const double Pi = 3.14159265359;
 double p = volve[0];
-//std::cout << "p = " << p << std::endl;
 double diff = volve[1];
-//std::cout << "diff = " << diff << std::endl;
 double K = volve[2];
-//std::cout << "K is " << K << std::endl;
-//std::vector<double> Rp = {volve[3], volve[4], volve[5]};
 double prefactor = pow((Pi/p),1.5);
 double ans = prefactor*K;
 return ans;
@@ -335,7 +323,7 @@ return ans;
 
 double kinetic(gauss KA, gauss KB){
 
-const double Pi = 3.14159;
+const double Pi = 3.14159265359;
 std::vector<double> volve = gauss_product(KA,KB);
 double p =volve[0];
 double diff = volve[1];
@@ -355,13 +343,13 @@ return ans;
 //Define the F0 function.
 
 double fo(double t){
-const double Pi = 3.14159;
+const double Pi = 3.14159265359;
 double ans;
 if(t ==0) {
 return 1;
 }
 else{
-ans=pow((0.5*(Pi/t)),0.5)*erf(pow(t,0.5));
+ans=0.5*pow((Pi/t),0.5)*erf(pow(t,0.5));
 return ans;
 }
 }
@@ -369,7 +357,7 @@ return ans;
 //Define the Nuclear-electron integral.
 
 double potential(gauss NA, gauss NB, Atom CAtom){
-const double Pi =3.14159;
+const double Pi =3.14159265359;
 std::vector<double> volve = gauss_product(NA,NB);
 Atom natom={CAtom.atomic_number, CAtom.x, CAtom.y, CAtom.z};
 double p =volve[0];
@@ -386,7 +374,7 @@ return ans;
 //Define the (ab|cd) integral.
 
 double multi(gauss MA, gauss MB, gauss MC, gauss MD){
-const double Pi=3.14159;
+const double Pi=3.14159265359;
 std::vector<double> volve = gauss_product(MA,MB);
 double p =volve[0];
 double diff_ab = volve[1];
@@ -397,8 +385,20 @@ double q =bolve[0];
 double diff_cd = bolve[1];
 double K_cd = bolve[2];
 std::vector<double> Rq = {bolve[3], bolve[4], bolve[5]};
-double multi_prefactor = pow((pow((2*Pi),2.5)*(p*q*pow((p+q),0.5))),-1);
+double multi_prefactor = 2*pow(Pi,2.5)*pow((p*q*pow((p+q),0.5)),-1);
 double norm = (pow((Rp[0]-Rq[0]),2) + pow((Rp[1]-Rq[1]),2) + pow((Rp[2]-Rq[2]),2));
 double ans = multi_prefactor*K_ab*K_cd*fo(p*q/(p+q)*norm);
 return ans;
+}
+
+//Define the succesive density matrix elements.
+
+double succ_dens(Eigen::MatrixXd ptilde, Eigen::MatrixXd p, int B){
+double x=0;
+for(int xitr=0; xitr < B; xitr++){
+       for(int xitr2=0; xitr2 < B; xitr2++){
+              x+=pow(B,2)*pow((ptilde(xitr,xitr2)-p(xitr,xitr2)),2);
+       }
+}
+return pow(x,0.5);
 }

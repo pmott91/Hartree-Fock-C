@@ -17,7 +17,7 @@ for (i = 0; i < atomn; i++){
               if(atomz[i] == 1) 
               qnum=1;
               else if(atomz[i] == 2)
-              qnum=2;
+              qnum=1;
               else if(atomz[i] == 3)
               qnum=2;
               else if(atomz[i] == 4)
