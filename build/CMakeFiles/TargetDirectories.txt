@@ -1,3 +1,0 @@
-/ccs/home/plot/parquant/Parallel-Quantum-Code/build/CMakeFiles/rebuild_cache.dir
-/ccs/home/plot/parquant/Parallel-Quantum-Code/build/CMakeFiles/edit_cache.dir
-/ccs/home/plot/parquant/Parallel-Quantum-Code/build/CMakeFiles/HF.dir
