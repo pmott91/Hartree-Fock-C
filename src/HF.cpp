@@ -13,7 +13,7 @@
 #include "unsupported/Eigen/MatrixFunctions"
 
 #include "libint2.hpp"
-
+#include <libint2/statics_definition.h>
 using std::fixed;
 using std::setprecision;
 
@@ -27,18 +27,18 @@ int main(int argc, char *argv[]) {
 const auto xyz_file = (argc > 1) ? argv[1] : "h2.xyz";
 int atomn=0;
 
-libint2::initialize();
+//libint2::initialize();
 
 
 //Define the variable 'atoms' by calling read_xyz.
 const std::vector<Atom> atoms = read_xyz(xyz_file,atomn);
 
-libint2::BasisSet obs("cc-pVDZ", atoms);
+//libint2::BasisSet obs("cc-pVDZ", atoms);
 
-std::copy(begin(obs), end(obs),
-          std::ostream_iterator<Shell>(std::cout, "\n"));
+//std::copy(begin(obs), end(obs),
+//          std::ostream_iterator<Shell>(std::cout, "\n"));
 
-libint2::finalize();
+//libint2::finalize();
 
 //Define floating point format for output.
 std::cout << std::fixed;
